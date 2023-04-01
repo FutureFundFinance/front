@@ -1,39 +1,26 @@
-import { useEffect} from 'react'
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
-import {PrivyProvider, usePrivy} from '@privy-io/react-auth';
+import {PrivyProvider} from '@privy-io/react-auth';
 import {useRouter} from 'next/router';
-import AdminLayout from '../src/common/components/Layouts/AdminLayout'
+import AdminLayout from '../src/core/components/Layouts/AdminLayout'
 
 import { ApolloProvider } from "@apollo/client";
-import client from "../src/common/utils/apollo-client";
+import client from "../src/core/utils/apollo-client";
 
 function MyApp({Component, pageProps}: AppProps) {
   const router = useRouter();
-  const { authenticated, ready, user} = usePrivy()
-
-  
-  useEffect(() => {
-    if (ready && !authenticated) {
-      console.log('IS AUTH', authenticated, ready, user);
-      
-    }
-    console.log('JUERS', authenticated, ready, user);
-  }, [ready, authenticated, router]);
-
   return (
     <ApolloProvider client={client}>
     
       <PrivyProvider
         appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ''}
-        onSuccess={() => router.push('/dashboard')}
+        onSuccess={() => router.push('/user')}
       >
-        {authenticated ? <Component {...pageProps} /> 
-        :
+      
         <AdminLayout>
           <Component {...pageProps} />
         </AdminLayout>
-         }
+         
         
       </PrivyProvider>
     </ApolloProvider>

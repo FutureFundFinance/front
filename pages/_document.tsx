@@ -16,7 +16,7 @@ class MyDocument extends Document {
         <Head>
           <meta name="description" content="FutureFund" />
         </Head>
-        <body  className="main"> 
+        <body  className="bg-current"> 
             <Main />
             <NextScript />
         </body>

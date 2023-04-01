@@ -16,7 +16,7 @@ export default function LoginPage() {
       router.push('dashboard')
     }
   }, [authenticated])
-  
+
   return (
     <>
       <Head>
@@ -27,7 +27,7 @@ export default function LoginPage() {
         <div className="flex bg-privy-light-blue flex-1 p-6 justify-center items-center">
           <div>
             <div>
-              <Portal style={{maxWidth: '100%', height: 'auto'}} />
+              <Portal />
             </div>
             <div className="mt-6 flex justify-center text-center">
               <button

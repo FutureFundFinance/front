@@ -1,4 +1,4 @@
-export default function Portal(props: React.SVGProps<SVGSVGElement>) {
+export default function Portal() {
   return (
     <span>
       The Future Fund Logo

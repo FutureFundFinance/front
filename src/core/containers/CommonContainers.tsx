@@ -1,8 +1,7 @@
 import React from 'react';
 import CommonComponent from '../components/CommonComponent';
-import { data } from '../hooks/useCommon';
 
-function CommonContainers(props) {
+function CommonContainers() {
   return (
     <CommonComponent />
       

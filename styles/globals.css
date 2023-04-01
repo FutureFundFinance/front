@@ -1,16 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --light: #edf2f9;
   --dark: #152e4d;
   --darker: #12263f;
-  /*  */
-  --color-primary: var(--color-cyan);
-  --color-primary-50: var(--color-cyan-50);
-  --color-primary-100: var(--color-cyan-100);
-  --color-primary-light: var(--color-cyan-light);
-  --color-primary-lighter: var(--color-cyan-lighter);
-  --color-primary-dark: var(--color-cyan-dark);
-  --color-primary-darker: var(--color-cyan-darker);
-  /*  */
   --color-green: #16a34a;
   --color-green-50: #f0fdf4;
   --color-green-100: #dcfce7;
@@ -58,11 +53,17 @@
   --color-violet-lighter: #a78bfa;
   --color-violet-dark: #6d28d9;
   --color-violet-darker: #5b21b6;
-}
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+   /*  */
+  --color-primary: var(--color-cyan);
+  --color-primary-50: var(--color-cyan-50);
+  --color-primary-100: var(--color-cyan-100);
+  --color-primary-light: var(--color-cyan-light);
+  --color-primary-lighter: var(--color-cyan-lighter);
+  --color-primary-dark: var(--color-cyan-dark);
+  --color-primary-darker: var(--color-cyan-darker);
+  /*  */
+}
 
 @layer components {
   .toggle:checked + span {
