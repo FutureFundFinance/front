@@ -19,7 +19,7 @@ const CheckoutPage = () => {
     }
 
     const cardElement = elements.getElement(CardElement);
-
+    //@ts-ignore
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: cardElement,

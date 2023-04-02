@@ -1,7 +1,5 @@
 
 import {useEffect, useState} from 'react'
-import { FF_SCHEMA } from '../../core/api/graphQL/furure_fund'
-
 import axios  from 'axios'
 
 import { usePrivy, getAccessToken } from '@privy-io/react-auth'

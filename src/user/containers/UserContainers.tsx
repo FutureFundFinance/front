@@ -9,7 +9,7 @@ import { GET_USER_BY_EMAIL } from '../api/graphQL/querys';
 function UserContainers() {
   const {user} = useUser()
   const { validateUser } = useUserGraphQLHook()
-  const {data, loading, error} = useQuery(GET_USER_BY_EMAIL, { variables: { email: user?.email?.address }})
+  const {data} = useQuery(GET_USER_BY_EMAIL, { variables: { email: user?.email?.address }})
 
   useEffect(() => {
     console.log(data);
@@ -18,9 +18,6 @@ function UserContainers() {
       validateUser(data)
     }
   }, [data])
-  
-    
-
   
   if(!user) return <Loading />
   return (

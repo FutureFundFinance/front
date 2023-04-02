@@ -5,10 +5,7 @@ import Link from 'next/link';
 
 function UserComponent({user, cedalioUser} : UserInterface) {
   const { linkWallet} = usePrivy()
-  const numAccounts = user?.linkedAccounts?.length || 0;
-  // const canRemoveAccount = numAccounts > 1;
   
-  console.log(cedalioUser);
   
   return (
    <div className="py-12 h-screen bg-gray-300">

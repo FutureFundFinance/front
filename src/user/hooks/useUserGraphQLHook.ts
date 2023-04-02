@@ -1,14 +1,15 @@
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { CREATE_USER } from '../api/graphQL/querys'
 import { UPDATE_USER } from '../api/graphQL/mutation'
 import { useUser } from './useUser'
 
 export const useUserGraphQLHook = () => {
   const { user } = useUser()
-    const [CreateUser, {data: createUserData, error: createUserError, loading: createUserLoading}] = useMutation(CREATE_USER)
+    const [CreateUser, {data: createUserData}] = useMutation(CREATE_USER)
     const [UpdateUser] = useMutation(UPDATE_USER)
   
     const validateUser = async (userInfo: []) => {
+      //@ts-ignore
       if(userInfo?.Users?.docs.length === 0){
         const userData = {
           email: user?.email?.address?? '',
@@ -23,7 +24,7 @@ export const useUserGraphQLHook = () => {
         console.log(userData);
         
         try {
-          const userCreated = await CreateUser({variables: { data: userData}})  
+          await CreateUser({variables: { data: userData}})  
         } catch (error) {
           console.log('EL ERROR', error);
           

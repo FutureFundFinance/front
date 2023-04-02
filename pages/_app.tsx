@@ -7,15 +7,11 @@ import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@ap
 import { setContext } from '@apollo/client/link/context'
 
 
-// import client from "../src/core/utils/apollo-client";
 import { useUser } from '../src/user/hooks/useUser';
-// import { useEffect, useState } from 'react';
 
 function MyApp({Component, pageProps}: AppProps) {
-  // const [apolloUri, setApolloUri] = useState<string | null>(null)
-  // const [cedalioJWToken, setCedalioJWToken] = useState<string | null>(null)
 
-  const {uri, cedalioUserToken, user, getAuthToken} = useUser()
+  const { cedalioUserToken} = useUser()
   const router = useRouter();
 
 
@@ -48,7 +44,7 @@ function MyApp({Component, pageProps}: AppProps) {
   }
 
   const httpLink = createHttpLink({
-    uri: `http://localhost:3010/api/graphql`,
+    uri: process.env.NEXT_PUBLIC_GRAPHQL_GATEWAY_BASE_URL,
   });
 
   const authLink = setContext(async (_, { headers }) => {
