@@ -16,7 +16,7 @@ type ProfileFormData = {
 const ProfileForm = () => {
     const [currentUser, setCurrentUser] = useState()
   const {user} = useUser()
-  const { register, handleSubmit } = useForm<ProfileFormData>();
+  const { register, handleSubmit, error } = useForm<ProfileFormData>();
   const {data: backendUser} = useQuery(GET_USER_BY_EMAIL, { variables: { email: user?.email?.address }})
 
   const {sendFileToIPFS} = usePinataHook()
@@ -69,7 +69,7 @@ const ProfileForm = () => {
           defaultValue={currentUser?.firstName}
         />
         {//@ts-ignore 
-        errors?.firstName && <span>This field is required</span>}
+        error?.firstName && <span>This field is required</span>}
       </div>
       <div>
         <label htmlFor="lastName">Last Name</label>
@@ -83,7 +83,7 @@ const ProfileForm = () => {
         />
         
         {   //@ts-ignore
-            errors?.lastName && <span>This field is required</span>
+            error?.lastName && <span>This field is required</span>
         }
       </div>
       <div>
@@ -96,7 +96,7 @@ const ProfileForm = () => {
           {...register("profilePicture")} 
         />
         { //@ts-ignore
-        errors?.profilePicture && <span>This field is required</span>}
+        error?.profilePicture && <span>This field is required</span>}
       </div>
       <button className="w-full px-4 py-2 font-medium text-center text-white transition-colors duration-200 rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-darker"
       type="submit">Save Changes</button>
