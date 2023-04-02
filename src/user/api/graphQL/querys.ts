@@ -1,13 +1,27 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_USER = gql`
-mutation createUser($user: UserInput!) {
-  createUser(user: $user){
-    user {
+mutation CreateUser($data: mutationUserInput!){
+  createUser(data: $data ){
+    id
+    firstName
+    lastName
+    wallet_address
+  }
+}`
+
+export const GET_USER_BY_EMAIL = gql`
+query getUserByEmail($email: EmailAddress){
+  Users(where: { email: {equals: $email}}){
+    docs{
       id
       firstName
-      firstName
+      lastName
+      profilePicture
       wallet_address
     }
   }
 }`
+
+
+

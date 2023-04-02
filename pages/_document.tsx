@@ -15,6 +15,7 @@ class MyDocument extends Document {
         <Html>
         <Head>
           <meta name="description" content="FutureFund" />
+          <title>FutureFund</title>
         </Head>
         <body  className="bg-current"> 
             <Main />

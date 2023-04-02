@@ -1,16 +1,23 @@
+
 import {useEffect, useState} from 'react'
+import { FF_SCHEMA } from '../../core/api/graphQL/furure_fund'
+
 import axios  from 'axios'
 
 import { usePrivy, getAccessToken } from '@privy-io/react-auth'
+import { useRouter } from 'next/router'
 export const useUser = () => {
+  
+
+  const router = useRouter()
   const [userToken, setUserToken] = useState<string | null>(null)
+  const [cedalioUserToken, setCedalioUserToken] = useState<string | null>(null)
   const [deployed, setDeployed] = useState(false);
-  const [uri, setUri] = useState('');
+  const [uri, setUri] = useState<string | null>(null);
   const [contractAddress, setContractAddress] = useState<string | undefined>();
   const [open, setOpen] = useState(false);
   const [response, setResponse] = useState("");
-  // const handleClose = () => setOpen(false);
-
+  
   const { user, authenticated, ready } = usePrivy()
 
   const getUserToken = async () =>{
@@ -18,41 +25,45 @@ export const useUser = () => {
     setUserToken(newToken)
   }
   const wallet = user?.wallet;
+
   useEffect(()=>{
+    if( !authenticated && ready && router.pathname !== '/'){
+      router.push('/')
+    }
     getUserToken()
-  },[user])
+  },[user,  authenticated, ready])
 
-  useEffect(() => {
-    const deployed = Boolean(localStorage.getItem('deployed'))
-    const contractAddress = localStorage.getItem('contractAddress')
-    const deploymentId = localStorage.getItem('deploymentId')
+  // useEffect(() => {
+  //   const deployed = Boolean(localStorage.getItem('deployed'))
+  //   const contractAddress = localStorage.getItem('contractAddress')
+  //   const deploymentId = localStorage.getItem('deploymentId')
 
-    console.log('deploymentId', deploymentId);
-    
-    if (deployed && contractAddress && deploymentId) {
-      setUri(`${String(process.env.NEXT_PUBLIC_GRAPHQL_GATEWAY_BASE_URL)}/${deploymentId}/graphql`)
-      setDeployed(deployed)
-      setContractAddress(contractAddress)
-    }
-    else if (ready && authenticated) {
-      console.log(user?.wallet?.address);
+  //   console.log('deploymentId', deploymentId);
+  //   if(!cedalioUserToken && user?.wallet?.address) {
+  //       getAuthToken(String(user?.wallet?.address))
+  //     }
+
+  //   if (deployed && contractAddress && deploymentId) {
       
-      if (user?.wallet?.address) {
-        return requestDeployToGateway(String(user?.wallet?.address))
-      }
-    }
-    else {
-      return
-    }
-  }, [ready, authenticated])
+  //     setUri(`${String(process.env.NEXT_PUBLIC_GRAPHQL_GATEWAY_BASE_URL)}/${deploymentId}/graphql`)
+  //     setDeployed(deployed)
+  //     setContractAddress(contractAddress)
+  //   }
+  //   else if (ready && authenticated) {
+  //     console.log(user?.wallet?.address);
+      
+  //     if (user?.wallet?.address && !deployed) {
+  //       return requestDeployToGateway(String(user?.wallet?.address))
+  //     }
+  //   }
+  //   else {
+  //     return
+  //   }
+  // }, [ready, authenticated])
 
   async function getAuthToken(address: string) {
 
     const url = `${process.env.NEXT_PUBLIC_GRAPHQL_GATEWAY_BASE_URL}/auth/privy`
-
-    console.log(url);
-    
-
     //when using privy sdk the value is stored as string with ""
     const privyToken = localStorage.getItem("privy:token")?.replaceAll('"', "");
 
@@ -74,22 +85,21 @@ export const useUser = () => {
         
         localStorage.setItem("auth_token", String(token));
 
-        const url = `${process.env.REACT_APP_GRAPHQL_GATEWAY_BASE_URL}/deploy`;
-
+        const url = `${process.env.NEXT_PUBLIC_GRAPHQL_GATEWAY_BASE_URL}/deploy`;
         const payload = {
-          email: "todo-multi.cedalio.com",
-          schema: `type Todo {
-            id: UUID!
-            title: String!
-            description: String
-            priority: Int!
-            tags: [String!]
-            status: String
-          }`,
+          email: user?.email?.address,
+          schema: `type User {
+                    id: UUID!
+                    firstName: String
+                    lastName: String
+                    email: String!
+                    profilePicture: String
+                    dateOfBirth: String
+                    wallet_address: String
+                  }`,
           schema_owner: address,
           network: "polygon:mumbai",
         };
-
         setOpen(true);
 
         axios
@@ -110,8 +120,9 @@ export const useUser = () => {
             setOpen(false);
             setResponse("success");
             setUri(
-              `${process.env.REACT_APP_GRAPHQL_GATEWAY_BASE_URL}/${response.data.deployment_id}/graphql`
+              `${process.env.NEXT_PUBLIC_GRAPHQL_GATEWAY_BASE_URL}/${response.data.deployment_id}/graphql`
             );
+            setCedalioUserToken(token)
           })
           .catch(function (error: any) {
             console.log(error);
@@ -123,7 +134,6 @@ export const useUser = () => {
         setResponse("error");
       });
   }
-
   const data: any = []
   return {
     data,
@@ -135,6 +145,8 @@ export const useUser = () => {
     open,
     response,
     uri,
-    contractAddress
+    contractAddress,
+    cedalioUserToken,
+    getAuthToken
   }
 }

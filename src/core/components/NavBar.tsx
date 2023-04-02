@@ -1,4 +1,5 @@
 import { usePrivy } from '@privy-io/react-auth'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -30,7 +31,7 @@ const NavBar = ({setIsMenuOpen, isMenuOpen}: INavBar) => {
                 </span>
             </button>
             <Link href="/" className="inline-block text-2xl font-bold tracking-wider text-primary-dark dark:text-light">
-            Future Fund
+              <Image src='/logos/Logo_BN.png' alt="" width={120} height={60}  />
             </Link>
             <button
                 onClick={logout}

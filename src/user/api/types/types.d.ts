@@ -8,5 +8,6 @@ export interface UserInput{
 }
 
 export interface UserInterface{
-    user: any
+    user: any,
+    cedalioUser: any
 }

@@ -6,8 +6,6 @@ export interface User {
   profilePicture: string
   dateOfBirth: string
   wallet_address: string
-  actions: Action[]
-  preferences: Preference[]
 }
 export interface Preference {
   id: string
